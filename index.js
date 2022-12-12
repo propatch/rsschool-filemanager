@@ -17,14 +17,12 @@ const parseArgs = () => {
   });
 
   console.log(getAgrs);
-
   console.log(acc);
 };
 
-const newArgs = parseArgs();
-console.log(newArgs);
+parseArgs();
 
-// switch (newArgs[1]) {
+// switch (acc[1]) {
 //   case "username":
 //     console.log(getEnt);
 //     break;
