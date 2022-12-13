@@ -1,5 +1,4 @@
-
-import repl from 'repl'
+import repl from "repl";
 
 //const returnName = (el) => JSON.parse(el, "USERNAME");
 
@@ -40,16 +39,17 @@ const parseArgs = () => {
     };
     console.log(`Welcome to the File Manager, ${parseUserName(acc[0])}!`);
   } catch (err) {
+    console.error(err);
     console.log(`Welcome to the File Manager, ${getUserName()}!`);
-    throw new Error("Not correct entities");
-  } finally {
-    repl.start(`user-session >`);
+
+    // } finally {
+    //   repl.start(`user-session >`);
   }
 };
 
 parseArgs();
 
-export default { parseArgs };
+export { getUserName };
 
 // const isFind = getKey.find((element) => {
 //   return element === "USERNAME";
