@@ -1,13 +1,27 @@
+
+import repl from 'repl'
+
 //const returnName = (el) => JSON.parse(el, "USERNAME");
 
-const getEnt = Object.entries(process.env);
+
+
+const getUserName = () => {
+  const getEnt = Object.entries(process.env);
+
+  const result = getEnt.find(([item]) => {
+    if (item.startsWith("USERNAME")) {
+      return item;
+    }
+  });
+  return result[1];
+};
 
 const parseArgs = () => {
   try {
-    const getAgrs = process.argv.slice(2);
+    const getArgs = process.argv.slice(2);
 
     const acc = [];
-    getAgrs.forEach((arg, i, arr) => {
+    getArgs.forEach((arg, i, arr) => {
       if (arg.startsWith("--")) {
         const transformArg = arg.slice(2);
         acc.push(transformArg);
@@ -26,16 +40,21 @@ const parseArgs = () => {
     };
     console.log(`Welcome to the File Manager, ${parseUserName(acc[0])}!`);
   } catch (err) {
+    console.log(`Welcome to the File Manager, ${getUserName()}!`);
     throw new Error("Not correct entities");
+  } finally {
+    repl.start(`user-session >`);
   }
 };
 
 parseArgs();
 
+export default { parseArgs };
+
 // const isFind = getKey.find((element) => {
 //   return element === "USERNAME";
 // });
-// swich (getAgrs[0]) {};
+// switch (getArgs[0]) {};
 
 // switch (acc[0]) {
 //   case "username":
