@@ -38,9 +38,10 @@ const parseArgs = () => {
       return result;
     };
     console.log(`Welcome to the File Manager, ${parseUserName(acc[0])}!`);
+    console.log(`You are currently in path_to_working_directory`);
   } catch (err) {
-    console.error(err);
-    console.log(`Welcome to the File Manager, ${getUserName()}!`);
+    console.error(`Not parameters in arguments: ${err}`);
+    console.log(`!!! You default username: ${getUserName()}`);
 
     // } finally {
     //   repl.start(`user-session >`);
@@ -49,7 +50,7 @@ const parseArgs = () => {
 
 parseArgs();
 
-export { getUserName };
+export { getUserName, parseArgs };
 
 // const isFind = getKey.find((element) => {
 //   return element === "USERNAME";
