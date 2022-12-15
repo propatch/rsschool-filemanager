@@ -1,8 +1,12 @@
+import EventEmitter from "events";
+import { homedir } from "os";
 import repl from "repl";
 
 //const returnName = (el) => JSON.parse(el, "USERNAME");
 
 //https://nodejs.org/dist/latest-v18.x/docs/api/repl.html
+
+//chdir(homedir());
 
 const getUserName = () => {
   const getEnt = Object.entries(process.env);
@@ -38,7 +42,7 @@ const parseArgs = () => {
       return result;
     };
     console.log(`Welcome to the File Manager, ${parseUserName(acc[0])}!`);
-    console.log(`You are currently in path_to_working_directory`);
+    console.log(`You are currently in path_to_working_directory `);
   } catch (err) {
     console.error(`Not parameters in arguments: ${err}`);
     console.log(`!!! You default username: ${getUserName()}`);
@@ -49,6 +53,26 @@ const parseArgs = () => {
 };
 
 parseArgs();
+
+const eventEmitter = new EventEmitter();
+eventEmitter.setMaxListeners(0);
+
+eventEmitter
+  .on("up")
+  .on("cd")
+  .on("ls")
+  .on("cat")
+  .on("add")
+  .on("rn")
+  .on("cp")
+  .on("mv")
+  .on("rm")
+  .on("os")
+  .on("hash")
+  .on("compress")
+  .on("decompress");
+
+   
 
 export { getUserName, parseArgs };
 

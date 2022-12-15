@@ -1,7 +1,10 @@
+// https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/file-manager/assignment.md
+// https://nodejs.org/dist/latest-v18.x/docs/api/readline.html
+
 import path from "node:path";
 import repl from "node:repl";
-
-import { parseArgs } from "./start.js";
+import { userInfo, cpus, homedir, EOL } from "node:os";
+import { getUserName, parseArgs } from "./start.js";
 //
 import fs from "fs/promises";
 
@@ -10,13 +13,37 @@ const currentlyPath = () => {
 };
 
 import * as readline from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
+import { chdir, stdin as input, stdout as output } from "node:process";
+
+chdir(homedir());
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: `user-session > `,
 });
+
+export const handleOS = ([param]) => {
+  try {
+    if (![param]) console.error(" NO PARAMETERS");
+    const { userName, homedir } = userInfo();
+    const cpuInfo = cpus().map(({ model, speed }) => {
+      speed = `${speed / 1000}`;
+      return { model, speed };
+    });
+
+    const os = {
+      "--cpus": cpuInfo,
+      "--homedir": homedir,
+      "--username": userName,
+      "--architecture": arch,
+      "--EOL": EOL,
+    };
+    if (!os[param]) console.error(" NO PARAMETERS");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 rl.prompt();
 
@@ -46,9 +73,17 @@ rl.on("line", (line) => {
     case "cp":
       console.log("world!");
       break;
+    case "os":
+      handleOS();
+      console.log("handleOS!");
+      break;
+
+    case ".exit":
+      console.log(`Thank you for using File Manager, ${parseArgs()}, goodbye!`);
+      process.exit(0);
 
     default:
-      console.log(`Say what? I might have heard '${line.trim()}'`);
+      console.log(`Invalid input`);
       break;
   }
   rl.prompt();
