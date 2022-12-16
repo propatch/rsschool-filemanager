@@ -27,10 +27,10 @@ export const handleOS = ([param]) => {
   try {
     if (![param]) console.error(" NO PARAMETERS");
     const { userName, homedir } = userInfo();
-    const cpuInfo = cpus().map(({ model, speed }) => {
-      speed = `${speed / 1000}`;
-      return { model, speed };
-    });
+    const cpuInfo = cpus().map(({ model, speed }) => ({
+      model,
+      speed: `${speed / 1000}`,
+    }));
 
     const os = {
       "--cpus": cpuInfo,
@@ -40,6 +40,8 @@ export const handleOS = ([param]) => {
       "--EOL": EOL,
     };
     if (!os[param]) console.error(" NO PARAMETERS");
+    console.table(os[param]);
+    //+= disp cur dir
   } catch (err) {
     console.log(err);
   }
