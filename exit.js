@@ -1,9 +1,8 @@
 import repl from "node:repl";
-import { parseArgs } from "./start.js";
-//
+import { getUserName } from "./start.js";
 
-const msg = `Thank you for using File Manager, ${parseArgs()}, goodbye!`;
-repl.start(`user-session >`);
+// message output
+export const msg = `Thank you for using File Manager, ${getUserName()}, goodbye!`;
 
 process.on("exit", () => {
   console.log(msg);

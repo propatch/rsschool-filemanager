@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 import { homedir } from "os";
 import repl from "repl";
+import { currentlyPath } from "./test.js";
 
 //const returnName = (el) => JSON.parse(el, "USERNAME");
 
@@ -8,18 +9,18 @@ import repl from "repl";
 
 //chdir(homedir());
 
+// const getUserName = () => {
+//   const getEnt = Object.entries(process.env);
+
+//   const result = getEnt.find(([item]) => {
+//     if (item.startsWith("USERNAME")) {
+//       return item;
+//     }
+//   });
+//   return result[1];
+// };
+
 const getUserName = () => {
-  const getEnt = Object.entries(process.env);
-
-  const result = getEnt.find(([item]) => {
-    if (item.startsWith("USERNAME")) {
-      return item;
-    }
-  });
-  return result[1];
-};
-
-const parseArgs = () => {
   try {
     const getArgs = process.argv.slice(2);
 
@@ -41,40 +42,41 @@ const parseArgs = () => {
       }
       return result;
     };
-    console.log(`Welcome to the File Manager, ${parseUserName(acc[0])}!`);
-    console.log(`You are currently in path_to_working_directory `);
+
+    const userName = parseUserName(acc[0]);
+
+    console.log(`Welcome to the File Manager, ${userName}!`);
+    
+    return userName;
   } catch (err) {
     console.error(`Not parameters in arguments: ${err}`);
-    console.log(`!!! You default username: ${getUserName()}`);
 
     // } finally {
     //   repl.start(`user-session >`);
   }
 };
 
-parseArgs();
+getUserName();
 
-const eventEmitter = new EventEmitter();
-eventEmitter.setMaxListeners(0);
+export { getUserName };
 
-eventEmitter
-  .on("up")
-  .on("cd")
-  .on("ls")
-  .on("cat")
-  .on("add")
-  .on("rn")
-  .on("cp")
-  .on("mv")
-  .on("rm")
-  .on("os")
-  .on("hash")
-  .on("compress")
-  .on("decompress");
+// const eventEmitter = new EventEmitter();
+// eventEmitter.setMaxListeners(0);
 
-   
-
-export { getUserName, parseArgs };
+// eventEmitter
+//   .on("up")
+//   .on("cd")
+//   .on("ls")
+//   .on("cat")
+//   .on("add")
+//   .on("rn")
+//   .on("cp")
+//   .on("mv")
+//   .on("rm")
+//   .on("os")
+//   .on("hash")
+//   .on("compress")
+//   .on("decompress");
 
 // const isFind = getKey.find((element) => {
 //   return element === "USERNAME";

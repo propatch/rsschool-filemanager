@@ -1,8 +1,9 @@
 // ++ disp curren dir
 
-export const handlerCD = async ([pathToDir]) => {
+import { currentlyPath } from "./test.js";
+
+export const cd = async ([pathToDir]) => {
   process.chdir(pathToDir);
-  // + dis cur метод
+  currentlyPath();
   // ++ valid path ?
 };
- 
