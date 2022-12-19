@@ -1,26 +1,11 @@
-import EventEmitter from "events";
-import { homedir } from "os";
-import repl from "repl";
-import { currentlyPath } from "./test.js";
+import * as readline from "node:readline/promises";
+import { up } from "./up.js";
+import { cd } from "./cd.js";
+import { ls } from "./ls.js";
+import { os } from "./os.js";
+import { currentDir } from "./displayCurDir.js";
 
-//const returnName = (el) => JSON.parse(el, "USERNAME");
-
-//https://nodejs.org/dist/latest-v18.x/docs/api/repl.html
-
-//chdir(homedir());
-
-// const getUserName = () => {
-//   const getEnt = Object.entries(process.env);
-
-//   const result = getEnt.find(([item]) => {
-//     if (item.startsWith("USERNAME")) {
-//       return item;
-//     }
-//   });
-//   return result[1];
-// };
-
-const getUserName = () => {
+export const getUserName = async () => {
   try {
     const getArgs = process.argv.slice(2);
 
@@ -46,51 +31,68 @@ const getUserName = () => {
     const userName = parseUserName(acc[0]);
 
     console.log(`Welcome to the File Manager, ${userName}!`);
-    
+
     return userName;
   } catch (err) {
-    console.error(`Not parameters in arguments: ${err}`);
-
-    // } finally {
-    //   repl.start(`user-session >`);
+    throw new Error(`Operation failed`);
   }
 };
 
-getUserName();
+currentDir();
+export const userName = await getUserName();
+await getUserName();
 
-export { getUserName };
+// entities commanding-menu
 
-// const eventEmitter = new EventEmitter();
-// eventEmitter.setMaxListeners(0);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: `user-session > `,
+});
 
-// eventEmitter
-//   .on("up")
-//   .on("cd")
-//   .on("ls")
-//   .on("cat")
-//   .on("add")
-//   .on("rn")
-//   .on("cp")
-//   .on("mv")
-//   .on("rm")
-//   .on("os")
-//   .on("hash")
-//   .on("compress")
-//   .on("decompress");
+rl.prompt();
+rl.on("line", (line) => {
+  switch (line.trim()) {
+    case "up":
+      currentDir();
+      up();
+      break;
+    case "cd":
+      console.log(process.argv);
+      currentDir();
+      break;
+    case "ls":
+      currentDir();
+      ls();
+      break;
+    case "cat":
+      currentDir();
+      break;
+    case "add":
+      currentDir();
+      break;
+    case "rn":
+      currentDir();
+      console.log(process.cwd());
+      break;
+    case "cp":
+      currentDir();
+      break;
+    case "os":
+      currentDir();
+      os();
+      currentDir();
+      break;
+    case ".exit":
+      console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
+      process.exit(0);
 
-// const isFind = getKey.find((element) => {
-//   return element === "USERNAME";
-// });
-// switch (getArgs[0]) {};
-
-// switch (acc[0]) {
-//   case "username":
-//     const result = getEnt.reduce((acc, [key, val]) => {
-//       if (key.startsWith("USERNAME")) acc.push(`${val}`);
-//       return acc;
-//     }, []);
-//     console.log(result);
-//     break;
-//   default:
-//     console.log("notFind");
-// }
+    default:
+      console.log(`Invalid input`);
+      break;
+  }
+  rl.prompt();
+}).on("close", () => {
+  console.log(`Thank you for using File Manager, ${userName}, goodbye!`);
+  process.exit(0);
+});

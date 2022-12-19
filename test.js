@@ -6,49 +6,28 @@ import repl from "node:repl";
 import { userInfo, cpus, homedir, EOL } from "node:os";
 import { getUserName } from "./start.js";
 import { msg } from "./exit.js";
+import { currentDir } from "./displayCurDir.js";
+
 //
 
-export const currentlyPath = () => {
-  return path.resolve();
-};
-console.log(`You are currently in ${path.resolve()}`);
+// export const currentlyPath = () => {
+//   return path.resolve();
+// };
+// console.log(`You are currently in ${path.resolve()}`);
+console.log(`You are currently in ${currentDir()}`);
 
 import * as readline from "node:readline/promises";
 import { up } from "./up.js";
 import { cd } from "./cd.js";
 import { ls } from "./ls.js";
 
-process.chdir(homedir());
+//process.chdir(homedir());
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: `user-session > `,
 });
-
-export const handleOS = ([param]) => {
-  try {
-    if (![param]) console.error(" NO PARAMETERS");
-    const { userName, homedir } = userInfo();
-    const cpuInfo = cpus().map(({ model, speed }) => ({
-      model,
-      speed: `${speed / 1000}`,
-    }));
-
-    const os = {
-      "--cpus": cpuInfo,
-      "--homedir": homedir,
-      "--username": userName,
-      "--architecture": arch,
-      "--EOL": EOL,
-    };
-    if (!os[param]) console.error(" NO PARAMETERS");
-    console.table(os[param]);
-    //+= disp cur dir
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 rl.prompt();
 
@@ -66,7 +45,7 @@ rl.on("line", (line) => {
       console.log("world!");
       break;
     case "ls":
-      console.log(`You are currently in ${currentlyPath()}`);
+      console.log(`You are currently in ${currentDir()}`);
       ls();
       break;
     case "cat":
@@ -74,7 +53,7 @@ rl.on("line", (line) => {
       break;
     case "add":
       console.log("world!");
-      console.log(`You are currently in ${currentlyPath()}`);
+      console.log(`You are currently in ${currentDir()}`);
       break;
     case "rn":
       console.log("world!");
@@ -82,10 +61,10 @@ rl.on("line", (line) => {
       break;
     case "cp":
       console.log("world!");
-      console.log(currentlyPath());
+      console.log(currentDir());
       break;
     case "os":
-      console.log(currentlyPath());
+      console.log(currentDir());
       handleOS();
       console.log("handleOS!");
 
@@ -135,3 +114,21 @@ rl.on("line", (line) => {
 // }
 
 // checkExit();
+
+// const eventEmitter = new EventEmitter();
+// eventEmitter.setMaxListeners(0);
+
+// eventEmitter
+//   .on("up")
+//   .on("cd")
+//   .on("ls")
+//   .on("cat")
+//   .on("add")
+//   .on("rn")
+//   .on("cp")
+//   .on("mv")
+//   .on("rm")
+//   .on("os")
+//   .on("hash")
+//   .on("compress")
+//   .on("decompress");

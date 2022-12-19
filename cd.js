@@ -1,9 +1,6 @@
-// ++ disp curren dir
-
-import { currentlyPath } from "./test.js";
+import { currentDir } from "./displayCurDir.js";
 
 export const cd = async ([pathToDir]) => {
   process.chdir(pathToDir);
-  currentlyPath();
-  // ++ valid path ?
+  currentDir();
 };

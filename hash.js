@@ -2,8 +2,6 @@ import { createReadStream } from "fs";
 import { resolve } from "path";
 import { pipeline } from "stream/promises";
 
-///+++  import output() from ../.js
-
 export const handlerHash = async ([pathToFile]) => {
   try {
     const pathFile = resolve(pathToFile);
@@ -11,6 +9,6 @@ export const handlerHash = async ([pathToFile]) => {
     const readable = createReadStream(pathFile, { encoding: "utf-8" });
     await pipeline(readable, hash.setEncoding("hex"), output());
   } catch (error) {
-    console.error("Invalid input"); k
+    console.error("Invalid input");
   }
 };

@@ -1,4 +1,4 @@
-export const handleOS = ([param]) => {
+export const os = ([param]) => {
   try {
     if (![param]) console.error(" NO PARAMETERS");
     const { userName, homedir } = userInfo();
